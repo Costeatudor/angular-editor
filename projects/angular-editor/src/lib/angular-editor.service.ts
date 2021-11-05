@@ -3,7 +3,7 @@ import {HttpClient, HttpEvent} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {DOCUMENT} from '@angular/common';
 import {CustomClass} from './config';
-
+import { ColorEvent } from 'ngx-color';
 export interface UploadResponse {
   imageUrl: string;
 }
@@ -63,7 +63,8 @@ export class AngularEditorService {
       }
     }
   }
-
+  
+  
   /**
    * Set font name
    * @param fontName string

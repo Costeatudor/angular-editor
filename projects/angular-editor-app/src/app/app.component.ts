@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AngularEditorConfig} from 'angular-editor';
+import { AngularEditorConfig } from 'projects/angular-editor/src/public-api';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({

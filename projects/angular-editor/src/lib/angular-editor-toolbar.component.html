@@ -1,4 +1,6 @@
-<div class="angular-editor-toolbar" *ngIf="showToolbar">
+
+
+<div (clickOutside)="onClickedOutside($event)" class="angular-editor-toolbar" *ngIf="showToolbar">
   <div class="angular-editor-toolbar-set">
     <button type="button" title="Undo" class="angular-editor-button" (click)="triggerCommand('undo')"
             [hidden]="isButtonHidden('undo')" tabindex="-1"><i
@@ -93,26 +95,93 @@
                tabindex="-1">
     </ae-select>
   </div>
-  <div class="angular-editor-toolbar-set">
-    <input
-      style="display: none"
-      type="color" (change)="insertColor(fgInput.value, 'textColor')"
-      #fgInput>
-    <button [id]="'foregroundColorPicker-'+id" type="button" class="angular-editor-button" (click)="focus(); ; fgInput.click()"
+
+
+
+  <div 
+  class="angular-editor-toolbar-set">
+   <div class="color-picker-wrapper">
+   <button [id]="'foregroundColorPicker-'+id" type="button" class="angular-editor-button" (click)="focus(); textColorShow = !textColorShow"
             title="Text Color"
             [disabled]="htmlMode" [hidden]="isButtonHidden('textColor')" tabindex="-1"><span
       class="color-label foreground"><i class="fa fa-font"></i></span>
     </button>
-    <input
+    
+    <div class="row color-picker" [class.hide]='!textColorShow'>
+          <button
+           class="twitter-pop" (click)="focus();" >
+            <color-twitter
+          
+             class="twitter-pop" #twitter
+              [color]="state"
+              triangle="top-left"
+              (onChangeComplete)="changeComplete($event, 'textColor')">
+            </color-twitter>
+          </button>
+  </div>
+
+
+  <div 
+  
+  class="angular-editor-toolbar-set">
+    <div class="color-picker-wrapper">
+      <button [id]="'backgroundColorPicker-'+id" type="button" class="angular-editor-button" (click)="focus(); textBackgroundShow = !textBackgroundShow"
+    b
+      title="Background Color"
+      [disabled]="htmlMode" [hidden]="isButtonHidden('backgroundColor')" tabindex="-1"><span
+class="color-label background"><i class="fa fa-font"></i></span>
+
+</button>
+     
+     <div class="row color-picker" [class.hide]='!textBackgroundShow'>
+           <button class="twitter-pop" (click)="focus();" >
+             <color-twitter class="twitter-pop" #twitter
+               [color]="state"
+               triangle="top-left"
+               (onChangeComplete)="changeComplete($event, 'backgroundColor')">
+             </color-twitter>
+           </button>
+   </div>
+
+
+    <!-- <input
       style="display: none"
       type="color" (change)="insertColor(bgInput.value, 'backgroundColor')"
       #bgInput>
     <button [id]="'backgroundColorPicker-'+id" type="button" class="angular-editor-button" (click)="focus(); ; bgInput.click()"
+    
             title="Background Color"
             [disabled]="htmlMode" [hidden]="isButtonHidden('backgroundColor')" tabindex="-1"><span
       class="color-label background"><i class="fa fa-font"></i></span>
+      
     </button>
-  </div>
+   
+  </div> -->
+
+
+
+
+
+
+
+  <!-- <div class="row">
+    <div class="col-md-7 mt-3">
+      <div class="d-flex justify-content-center justify-content-md-start">
+        <button (click)="focus(); " >
+          <color-twitter #twitter
+            [color]="state"
+            triangle="top-right"
+            (onChangeComplete)="changeComplete($event, 'textColor')"
+          ></color-twitter>
+
+        </button>
+      </div>
+    </div>
+
+ -->
+
+
+  
   <div *ngIf="_customClasses" class="angular-editor-toolbar-set">
     <ae-select class="select-custom-style" [options]="customClassList"
                [(ngModel)]="customClassId"
