@@ -1,10 +1,11 @@
-import {Component, ElementRef, EventEmitter, Inject, Input, Output, Renderer2, ViewChild} from '@angular/core';
+import {asNativeElements, Component, ElementRef, EventEmitter, HostListener, Inject, Input, Output, Renderer2, ViewChild} from '@angular/core';
 import {AngularEditorService, UploadResponse} from './angular-editor.service';
 import {HttpResponse, HttpEvent} from '@angular/common/http';
 import {DOCUMENT} from '@angular/common';
 import {CustomClass} from './config';
 import {SelectOption} from './ae-select/ae-select.component';
 import { Observable } from 'rxjs';
+import { ColorEvent } from 'ngx-color';
 
 @Component({
   selector: 'angular-editor-toolbar',
@@ -12,14 +13,27 @@ import { Observable } from 'rxjs';
   styleUrls: ['./angular-editor-toolbar.component.scss'],
 })
 
+
 export class AngularEditorToolbarComponent {
+
   htmlMode = false;
   linkSelected = false;
+  toggle: boolean = false;
   block = 'default';
   fontName = 'Times New Roman';
   fontSize = '3';
   foreColour;
   backColor;
+  textColorShow: boolean;
+  textBackgroundShow: boolean;
+  title = 'app';
+  primaryColor = '#194D33';
+  state = {
+    h: 150,
+    s: 0.50,
+    l: 0.20,
+    a: 1,
+  };
 
   headings: SelectOption[] = [
     {
@@ -277,6 +291,25 @@ export class AngularEditorToolbarComponent {
   insertColor(color: string, where: string) {
     this.editorService.insertColor(color, where);
     this.execute.emit('');
+  }
+
+
+
+
+  
+  changeComplete($event: ColorEvent , where:string): void {
+
+    this.editorService.insertColor($event.color.hex, where);
+    this.execute.emit('');
+    this.textColorShow = false;
+    this.textBackgroundShow = false;
+
+  }
+  onClickedOutside(e: Event) {
+  
+ 
+    this.textBackgroundShow= false;
+    this.textColorShow = false;
   }
 
   /**
